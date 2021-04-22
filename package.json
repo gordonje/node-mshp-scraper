@@ -1,0 +1,15 @@
+{
+  "name": "mshp-scraper",
+  "version": "0.0.1",
+  "description": "A package for scraping incident report data from the Missouri State Highway Patrol",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "*"
+  }
+}
