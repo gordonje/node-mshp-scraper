@@ -112,13 +112,46 @@ async function getReportURLs(injuryType) {
 
 }
 
+
+function extractReportData(html) {
+	const $ = cheerio.load(html);
+
+	const data = $(".accidentOutput").first().get("caption").text
+
+	return data
+
+}
+
+
+async function getReportData(url) {
+
+	siteURL = "https://www.mshp.dps.missouri.gov/"
+
+	let data = ""
+
+	await axios
+		.get(url)
+		.then(response => data += append(extractReportData(response.data)))
+		.catch(error => console.log(error))
+
+	return data
+
+}
+
+
 // actual call to get the injury types
 getInjuryTypes()
 	// handle success
 	.then(
 		// map each injury type to a call to get the URLs for reports with that injury type
 		injuryTypes => {
-			injuryTypes.map(d => getReportURLs(d).then(console.log))
+			injuryTypes.map(
+				d => getReportURLs(d).then(
+					urls => {
+						urls.slice(0, 2).map(d => getReportData(d))
+					}
+				)
+			)
 		}
 	)
 	.catch(error => console.log(error));
